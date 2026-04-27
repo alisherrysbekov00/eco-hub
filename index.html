@@ -11,7 +11,6 @@
   <meta property="og:description" content="Trebit сам помогает включить кино родителям, следит за растениями, управляет кондиционером и телевизором, показывает состояние дома и делает ваш дом частью эко-карты города.">
   <meta property="og:image" content="eco-hub.png">
 
-
   <style>
     :root {
       --bg: #020303;
@@ -139,94 +138,122 @@
       background: transparent;
     }
 
-.nav-wrap {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+    /* ========== НАВИГАЦИЯ С БУРГЕРОМ ========== */
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #eee;
+      transition: all 0.35s ease;
+    }
 
-  /* обычное состояние */
-  background: #ffffff;
-  border-bottom: 1px solid #eee;
+    .nav-wrap.scrolled {
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
 
-  transition: all 0.35s ease;
-}
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-/* 🔥 при скролле */
-.nav-wrap.scrolled {
-  background: rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      color: #000;
+      transition: color 0.3s ease;
+    }
 
-/* контейнер */
-.nav {
-  min-height: 74px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
+    /* Десктопное меню */
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      color: #000;
+      transition: color 0.3s ease;
+    }
 
-/* бренд */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 800;
-  color: #000; /* чёрный текст */
-  transition: color 0.3s ease;
-}
+    .nav-links a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-/* ссылки */
-.nav-links {
-  display: flex;
-  gap: 20px;
-  color: #000; /* чёрный текст */
-  transition: color 0.3s ease;
-}
+    .nav-links a:hover {
+      opacity: 0.6;
+    }
 
-.nav-links a {
-  color: inherit;
-  text-decoration: none;
-}
+    /* Стили при скролле — белый текст */
+    .nav-wrap.scrolled .brand,
+    .nav-wrap.scrolled .nav-links {
+      color: #fff;
+    }
 
-.nav-links a:hover {
-  opacity: 0.6;
-}
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-/* 🔥 при скролле — делаем текст белым */
-.nav-wrap.scrolled .brand,
-.nav-wrap.scrolled .nav-links {
-  color: #fff;
-}
+    .nav-wrap.scrolled .brand-mark img {
+      filter: brightness(0) invert(1);
+    }
 
-/* логотип */
-.brand-mark {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .brand-mark img {
+      height: 40px;
+      width: auto;
+      object-fit: contain;
+    }
 
-/* убираем эффект при скролле полностью */
-.nav-wrap.scrolled .brand-mark {
-  background: none;
-  backdrop-filter: none;
-}
+    /* ========== БУРГЕР-КНОПКА (по умолчанию скрыта) ========== */
+    .burger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      width: 44px;
+      height: 44px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      z-index: 1001;
+      padding: 0;
+    }
 
-.nav-wrap.scrolled .brand-mark img {
-  filter: brightness(0) invert(1);
-}
+    .burger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #000;
+      border-radius: 2px;
+      transition: 0.25s ease;
+    }
 
-/* логотип напрямую */
-.brand-mark img {
-  height: 40px; /* регулируй размер */
-  width: auto;
-  object-fit: contain;
-}
+    /* При скролле — белые полоски бургера */
+    .nav-wrap.scrolled .burger span {
+      background: #fff;
+    }
 
-.hero {
-  padding: 40px 0 32px;
-}
+    /* Анимация при открытом меню */
+    .burger.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .burger.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* ========== ОСТАЛЬНЫЕ СТИЛИ ========== */
+    .hero {
+      padding: 40px 0 32px;
+    }
     .hero-grid {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
@@ -607,6 +634,7 @@
       padding-top: 22px;
     }
 
+    /* ========== АДАПТИВ ========== */
     @media (max-width: 980px) {
       .hero-grid,
       .grid-2,
@@ -627,8 +655,42 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .nav-links { display: none; }
-      .hero-copy { padding-top: 18px; }
+      /* Показываем бургер, скрываем десктопное меню */
+      .burger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 74px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 74px);
+        background: rgba(2, 3, 3, 0.96);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        transition: left 0.3s ease;
+        z-index: 999;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .nav-links.active {
+        left: 0;
+      }
+
+      .nav-links a {
+        color: white;
+        font-size: 28px;
+      }
+
+      /* При открытом меню скролл блока */
+      body.menu-open {
+        overflow: hidden;
+      }
     }
 
     @media (max-width: 720px) {
@@ -642,21 +704,15 @@
       .hero { padding-top: 24px; }
       .footer-row { flex-direction: column; }
       .hero-proof span { width: 100%; }
+      .nav-links a {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
-<script>
-window.addEventListener('scroll', function () {
-  const nav = document.querySelector('.nav-wrap');
-  if (window.scrollY > 20) {
-    nav.classList.add('scrolled');
-  } else {
-    nav.classList.remove('scrolled');
-  }
-});
-</script>
+<body>
 
-  <div class="nav-wrap">
+<div class="nav-wrap">
   <div class="container nav">
     <div class="brand">
       <div class="brand-mark">
@@ -665,281 +721,337 @@ window.addEventListener('scroll', function () {
       <div>Trebit smart</div>
     </div>
 
-    <div class="nav-links">
-     <a href="#problem">Проблема</a>
-     <a href="#features">Преимущества</a>
-     <a href="#product">О продукте</a>
-     <a href="#offer">Цена</a>
-     <a class="login-btn" href="https://smart-climate-platform-sdon.vercel.app" target="_blank">
-       Войти
-     </a>
-</div>
+    <!-- Бургер-кнопка -->
+    <button class="burger" id="burgerBtn" aria-label="Меню">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Меню навигации -->
+    <div class="nav-links" id="navLinks">
+      <a href="#problem">Проблема</a>
+      <a href="#features">Преимущества</a>
+      <a href="#product">О продукте</a>
+      <a href="#offer">Цена</a>
+      <a class="login-btn" href="https://smart-climate-platform-sdon.vercel.app" target="_blank">
+        Войти
+      </a>
+    </div>
   </div>
 </div>
-  <header class="hero">
-    <div class="container hero-grid">
-      <div class="hero-copy">
-        <div class="eyebrow">Локальный продукт для наших семей и нашего города</div>
-        <h1>
-           Телевизор включается сам.<br>
-           Родителям не нужно ничего объяснять.
-        </h1>
+
+<!-- Остальной контент без изменений -->
+<header class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow">Локальный продукт для наших семей и нашего города</div>
+      <br/>
+      <h1>
+         Телевизор включается сам.<br>
+         Родителям не нужно ничего объяснять.
+      </h1>
+      <p class="lead">
+        Trebit сам помогает включить кино родителям, следит за растениями, управляет кондиционером и телевизором, показывает состояние дома и делает ваш дом частью эко-карты города.
+      </p>
+      <div class="button-row">
+        <a class="button button-primary" href="https://wa.me/996702080300" target="_blank" rel="noopener">Заказать в WhatsApp</a>
+        <a class="button button-secondary" href="https://t.me/Alisher_00kg" target="_blank" rel="noopener">Написать в Telegram</a>
+        <a class="button button-link" href="https://instagram.com/trebit.kg" target="_blank" rel="noopener">Наш Instagram</a>
+      </div>
+      <div class="hero-proof">
+        <span>Помогает пожилым без сложных пультов</span>
+        <span>Подходит любителям растений и гаджетов</span>
+        <span>Актуален для городов со смогом, как Бишкек</span>
+      </div>
+    </div>
+
+    <div class="visual-card">
+      <img class="product-photo" src="eco-hub.png" alt="ЭКО Хаб и его модули" />
+      <div class="floating-note">
+        Один комплект — несколько реальных сценариев пользы: забота о родителях, контроль растений, климат дома и экологические данные без перегруженного интерфейса.
+      </div>
+      <div class="quick-stats">
+        <div class="quick-stat">
+          <strong>1</strong>
+          одно понятное решение вместо набора разрозненных устройств
+        </div>
+        <div class="quick-stat">
+          <strong>3</strong>
+          ключевые ценности: семья, комфорт, экология
+        </div>
+        <div class="quick-stat">
+          <strong>24/7</strong>
+          контроль дома даже когда вы заняты или не рядом
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="strip">
+  <div class="container strip-grid">
+    <div class="strip-item">Заменяет все пульты — телевизор и кондиционер управляются с одного устройства</div>
+    <div class="strip-item">Находит фильм в интернете и сам включает его для родителей</div>
+    <div class="strip-item">Следит за влажностью почвы и микроклиматом дома</div>
+    <div class="strip-item">Показывает графики состояния дома прямо на экране телевизора</div>
+  </div>
+</section>
+
+<main>
+  <section class="section" id="problem">
+    <div class="container grid-2">
+      <div>
+        <p class="section-label">Проблема</p>
+        <h2>Обычный умный дом обещает удобство, а в жизни приносит только новую сложность</h2>
         <p class="lead">
-          Trebit сам помогает включить кино родителям, следит за растениями, управляет кондиционером и телевизором, показывает состояние дома и делает ваш дом частью эко-карты города.
+          Хабы, датчики, приложения, настройки, сценарии — всё это звучит технологично, пока вы не пытаетесь объяснить родителям, как включить фильм, или не понимаете, что для одной пользы пришлось купить пять устройств.
         </p>
-        <div class="button-row">
+        <div class="pain-grid">
+          <div class="pain">Родители теряются в кнопках, входах, приложениях и пультах.</div>
+          <div class="pain">Устройства не складываются в одну понятную систему для дома.</div>
+          <div class="pain">Большинство решений сделаны не под нашу реальную жизнь, а под идеальную картинку.</div>
+          <div class="pain">В итоге дорого, сложно и без ощущения, что технология правда помогает.</div>
+        </div>
+      </div>
+
+      <div class="premium-panel">
+        <p class="section-label">Решение</p>
+        <h3>Trebit — как «дерево» умного дома</h3>
+        <br/>
+        <p>
+          Из одного центра вырастает вся система: телефон, телевизор и бытовая техника соединяются в единую сеть, где всё работает вместе, без лишних настроек.
+        </p>
+      
+        <div class="bullet-list">
+          <div class="bullet"><i></i><div>Понятен тем, кто не любит технику и не хочет разбираться в сложных настройках.</div></div>
+          <div class="bullet"><i></i><div>Закрывает сразу несколько сценариев пользы вместо набора несвязанных гаджетов.</div></div>
+          <div class="bullet"><i></i><div>Создан локально и лучше понимает наши квартиры, наш климат и наши городские проблемы.</div></div>
+          <div class="bullet"><i></i><div>Выглядит и ощущается как полноценный готовый продукт</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-label">Преимущества</p>
+        <h2>Три причины, почему Trebit хочется поставить дома уже сейчас</h2>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon">🎬</div>
+          <h3>Кино для мамы — в один клик</h3>
+          <p>
+            Больше не нужно созваниваться и объяснять, что нажать на пульте. Trebit smart сам находит фильм в интернете, включает телевизор и запускает нужное видео. Для родителей это спокойствие. Для вас — меньше тревоги и постоянных объяснений.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">🌱</div>
+          <h3>Ваши растения под присмотром</h3>
+          <p>
+            Устройство следит за влажностью почвы и параметрами микроклимата. Даже если вы заняты, в отъезде или просто забыли, дом не остаётся без внимания. А расширение до автополива делает заботу о растениях почти незаметной для вас.
+          </p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-icon">🌫️</div>
+          <h3>Дышите полной грудью</h3>
+          <p>
+            В городах со смогом важно не догадываться, а видеть реальные данные. Trebit smart помогает отслеживать состояние среды и делает ваш дом частью эко-карты города. Это технология не только для квартиры, но и для общего будущего.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="product">
+    <div class="container product-block">
+      <div>
+        <p class="section-label">О продукте</p>
+        <h2>Компактный. Понятный. Премиальный на вид.</h2>
+        <p class="lead">
+          Trebit smart выглядит как законченный продукт, который не стыдно поставить рядом с телевизором, растениями или на рабочем столе. Он не создаёт ощущение сложной техники — он создаёт ощущение спокойствия и контроля.
+        </p>
+        <div class="micro-cards">
+          <div class="micro-card">Главный модуль управляет телевизором и климатом дома.</div>
+          <div class="micro-card">Сенсорный модуль собирает экологические и климатические данные.</div>
+          <div class="micro-card">Модуль для растений помогает следить за почвой и уходом.</div>
+          <div class="micro-card">Всё выглядит аккуратно, прозрачно и современно — как реальный продукт, а не прототип.</div>
+        </div>
+      </div>
+
+      <div>
+        <img class="wide-photo" src="eco-hub1.png" alt="Модули ЭКО Хаб" />
+        <div class="product-gallery" style="margin-top:12px;">
+          <img src="eco-hub2.png" alt="Контроллер ЭКО Хаб" />
+          <img src="eco-hub3.png" alt="Сенсорный модуль ЭКО Хаб" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 10px;">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-label">Как это работает</p>
+        <h2>Три простых шага до дома, который действительно помогает</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <h3>Подключите</h3>
+          <p>Установите Trebit smart дома и свяжите его с телевизором, кондиционером и датчиками. Без перегруженной экосистемы и лишних приложений.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <h3>Наблюдайте</h3>
+          <p>Следите за домом, растениями и параметрами среды. Всё важное видно быстро и понятно, в том числе на экране телевизора.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <h3>Живите спокойнее</h3>
+          <p>Родителям проще с техникой, дома комфортнее, растения под контролем, а у вас меньше бытовой нагрузки и больше ощущения порядка.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container trust-offer">
+      <div class="card">
+        <p class="section-label">Доверие</p>
+        <h2>Разработано инженерами для реальной жизни, а не для красивого слайда</h2>
+        <p>
+          Мы сами живём в тех же городах, дышим тем же воздухом и так же сталкиваемся с тем, что пожилым сложно пользоваться современной техникой. Поэтому Trebit smart — это не безликий гаджет, а локальный продукт, который понимает наши привычки и проблемы.
+        </p>
+        <p>
+          Здесь нет лишнего пафоса. Только реальная польза: спокойствие за родителей, забота о доме, контроль среды и ощущение, что технология наконец работает на человека.
+        </p>
+      </div>
+
+      <div class="offer" id="offer">
+        <p class="section-label">Стартовая цена первой партии</p>
+        <h2>Забронируйте Trebit smart по цене запуска</h2>
+        <p>
+          Мы открываем ограниченный предзаказ для первых покупателей. Вы получаете выгодную стартовую цену, приоритетную поддержку и доступ к ранним обновлениям. После запуска цена станет выше.
+        </p>
+
+        <div class="price-box">
+          <div class="old-price">Обычная цена: 12 900 сом</div>
+          <div class="price-row">
+            <div class="new-price">8 900 сом</div>
+            <div class="muted">для первой партии</div>
+          </div>
+          <div class="offer-points">
+            <div>— ограниченное количество устройств на старте</div>
+            <div>— приоритетная поддержка для первых покупателей</div>
+            <div>— ранний доступ к будущим функциям и улучшениям</div>
+          </div>
+        </div>
+
+        <div class="offer-buttons">
           <a class="button button-primary" href="https://wa.me/996702080300" target="_blank" rel="noopener">Заказать в WhatsApp</a>
           <a class="button button-secondary" href="https://t.me/Alisher_00kg" target="_blank" rel="noopener">Написать в Telegram</a>
           <a class="button button-link" href="https://instagram.com/trebit.kg" target="_blank" rel="noopener">Наш Instagram</a>
         </div>
-        <div class="hero-proof">
-          <span>Помогает пожилым без сложных пультов</span>
-          <span>Подходит любителям растений и гаджетов</span>
-          <span>Актуален для городов со смогом, как Бишкек</span>
-        </div>
       </div>
-
-      <div class="visual-card">
-        <img class="product-photo" src="eco-hub.png" alt="ЭКО Хаб и его модули" />
-        <div class="floating-note">
-          Один комплект — несколько реальных сценариев пользы: забота о родителях, контроль растений, климат дома и экологические данные без перегруженного интерфейса.
-        </div>
-        <div class="quick-stats">
-          <div class="quick-stat">
-            <strong>1</strong>
-            одно понятное решение вместо набора разрозненных устройств
-          </div>
-          <div class="quick-stat">
-            <strong>3</strong>
-            ключевые ценности: семья, комфорт, экология
-          </div>
-          <div class="quick-stat">
-            <strong>24/7</strong>
-            контроль дома даже когда вы заняты или не рядом
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <section class="strip">
-    <div class="container strip-grid">
-      <div class="strip-item">Заменяет все пульты — телевизор и кондиционер управляются с одного устройства</div>
-      <div class="strip-item">Находит фильм в интернете и сам включает его для родителей</div>
-      <div class="strip-item">Следит за влажностью почвы и микроклиматом дома</div>
-      <div class="strip-item">Показывает графики состояния дома прямо на экране телевизора</div>
     </div>
   </section>
 
-  <main>
-    <section class="section" id="problem">
-      <div class="container grid-2">
-        <div>
-          <p class="section-label">Проблема</p>
-          <h2>Обычный умный дом обещает удобство, а в жизни приносит только новую сложность</h2>
-          <p class="lead">
-            Хабы, датчики, приложения, настройки, сценарии — всё это звучит технологично, пока вы не пытаетесь объяснить родителям, как включить фильм, или не понимаете, что для одной пользы пришлось купить пять устройств.
-          </p>
-          <div class="pain-grid">
-            <div class="pain">Родители теряются в кнопках, входах, приложениях и пультах.</div>
-            <div class="pain">Устройства не складываются в одну понятную систему для дома.</div>
-            <div class="pain">Большинство решений сделаны не под нашу реальную жизнь, а под идеальную картинку.</div>
-            <div class="pain">В итоге дорого, сложно и без ощущения, что технология правда помогает.</div>
-          </div>
-        </div>
-
-        <div class="premium-panel">
-          <p class="section-label">Решение</p>
-          <h3>Trebit — как «дерево» умного дома</h3>
-          <br/>
-          <p>
-            Из одного центра вырастает вся система: телефон, телевизор и бытовая техника соединяются в единую сеть, где всё работает вместе, без лишних настроек.
-          </p>
-        
-          <div class="bullet-list">
-            <div class="bullet"><i></i><div>Понятен тем, кто не любит технику и не хочет разбираться в сложных настройках.</div></div>
-            <div class="bullet"><i></i><div>Закрывает сразу несколько сценариев пользы вместо набора несвязанных гаджетов.</div></div>
-            <div class="bullet"><i></i><div>Создан локально и лучше понимает наши квартиры, наш климат и наши городские проблемы.</div></div>
-            <div class="bullet"><i></i><div>Выглядит и ощущается как полноценный готовый продукт</div></div>
-          </div>
+  <section class="section cta">
+    <div class="container">
+      <div class="cta-box">
+        <p class="section-label">Начните с первого умного шага</p>
+        <h2>Сделайте дом умным по-настоящему, без сложных инструкций и бесполезных функций</h2>
+        <p class="lead" style="max-width: 860px; margin-left:auto; margin-right:auto;">
+          Trebit smart помогает заботиться о близких, растениях и качестве жизни дома. Это тот случай, когда технология выглядит красиво, работает понятно и реально приносит пользу с первого дня.
+        </p>
+        <div class="button-row" style="justify-content:center;">
+          <a class="button button-primary" href="https://wa.me/996702080300" target="_blank" rel="noopener">Заказать в WhatsApp</a>
+          <a class="button button-secondary" href="https://t.me/Alisher_00kg" target="_blank" rel="noopener">Написать в Telegram</a>
+          <a class="button button-link" href="https://instagram.com/trebit" target="_blank" rel="noopener">Наш Instagram</a>
         </div>
       </div>
-    </section>
-
-    <section class="section" id="features">
-      <div class="container">
-        <div class="section-head">
-          <p class="section-label">Преимущества</p>
-          <h2>Три причины, почему Trebit хочется поставить дома уже сейчас</h2>
-        </div>
-
-        <div class="feature-grid">
-          <article class="feature">
-            <div class="feature-icon">🎬</div>
-            <h3>Кино для мамы — в один клик</h3>
-            <p>
-              Больше не нужно созваниваться и объяснять, что нажать на пульте. Trebit smart сам находит фильм в интернете, включает телевизор и запускает нужное видео. Для родителей это спокойствие. Для вас — меньше тревоги и постоянных объяснений.
-            </p>
-          </article>
-
-          <article class="feature">
-            <div class="feature-icon">🌱</div>
-            <h3>Ваши растения под присмотром</h3>
-            <p>
-              Устройство следит за влажностью почвы и параметрами микроклимата. Даже если вы заняты, в отъезде или просто забыли, дом не остаётся без внимания. А расширение до автополива делает заботу о растениях почти незаметной для вас.
-            </p>
-          </article>
-
-          <article class="feature">
-            <div class="feature-icon">🌫️</div>
-            <h3>Дышите полной грудью</h3>
-            <p>
-              В городах со смогом важно не догадываться, а видеть реальные данные. Trebit smart помогает отслеживать состояние среды и делает ваш дом частью эко-карты города. Это технология не только для квартиры, но и для общего будущего.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="product">
-      <div class="container product-block">
-        <div>
-          <p class="section-label">О продукте</p>
-          <h2>Компактный. Понятный. Премиальный на вид.</h2>
-          <p class="lead">
-            Trebit smart выглядит как законченный продукт, который не стыдно поставить рядом с телевизором, растениями или на рабочем столе. Он не создаёт ощущение сложной техники — он создаёт ощущение спокойствия и контроля.
-          </p>
-          <div class="micro-cards">
-            <div class="micro-card">Главный модуль управляет телевизором и климатом дома.</div>
-            <div class="micro-card">Сенсорный модуль собирает экологические и климатические данные.</div>
-            <div class="micro-card">Модуль для растений помогает следить за почвой и уходом.</div>
-            <div class="micro-card">Всё выглядит аккуратно, прозрачно и современно — как реальный продукт, а не прототип.</div>
-          </div>
-        </div>
-
-        <div>
-          <img class="wide-photo" src="eco-hub1.png" alt="Модули ЭКО Хаб" />
-          <div class="product-gallery" style="margin-top:12px;">
-            <img src="eco-hub2.png" alt="Контроллер ЭКО Хаб" />
-            <img src="eco-hub3.png" alt="Сенсорный модуль ЭКО Хаб" />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top: 10px;">
-      <div class="container">
-        <div class="section-head">
-          <p class="section-label">Как это работает</p>
-          <h2>Три простых шага до дома, который действительно помогает</h2>
-        </div>
-        <div class="steps">
-          <div class="step">
-            <div class="step-num">01</div>
-            <h3>Подключите</h3>
-            <p>Установите Trebit smart дома и свяжите его с телевизором, кондиционером и датчиками. Без перегруженной экосистемы и лишних приложений.</p>
-          </div>
-          <div class="step">
-            <div class="step-num">02</div>
-            <h3>Наблюдайте</h3>
-            <p>Следите за домом, растениями и параметрами среды. Всё важное видно быстро и понятно, в том числе на экране телевизора.</p>
-          </div>
-          <div class="step">
-            <div class="step-num">03</div>
-            <h3>Живите спокойнее</h3>
-            <p>Родителям проще с техникой, дома комфортнее, растения под контролем, а у вас меньше бытовой нагрузки и больше ощущения порядка.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container trust-offer">
-        <div class="card">
-          <p class="section-label">Доверие</p>
-          <h2>Разработано инженерами для реальной жизни, а не для красивого слайда</h2>
-          <p>
-            Мы сами живём в тех же городах, дышим тем же воздухом и так же сталкиваемся с тем, что пожилым сложно пользоваться современной техникой. Поэтому Trebit smart — это не безликий гаджет, а локальный продукт, который понимает наши привычки и проблемы.
-          </p>
-          <p>
-            Здесь нет лишнего пафоса. Только реальная польза: спокойствие за родителей, забота о доме, контроль среды и ощущение, что технология наконец работает на человека.
-          </p>
-        </div>
-
-        <div class="offer" id="offer">
-          <p class="section-label">Стартовая цена первой партии</p>
-          <h2>Забронируйте Trebit smart по цене запуска</h2>
-          <p>
-            Мы открываем ограниченный предзаказ для первых покупателей. Вы получаете выгодную стартовую цену, приоритетную поддержку и доступ к ранним обновлениям. После запуска цена станет выше.
-          </p>
-
-          <div class="price-box">
-            <div class="old-price">Обычная цена: 12 900 сом</div>
-            <div class="price-row">
-              <div class="new-price">8 900 сом</div>
-              <div class="muted">для первой партии</div>
-            </div>
-            <div class="offer-points">
-              <div>— ограниченное количество устройств на старте</div>
-              <div>— приоритетная поддержка для первых покупателей</div>
-              <div>— ранний доступ к будущим функциям и улучшениям</div>
-            </div>
-          </div>
-
-          <div class="offer-buttons">
-            <a class="button button-primary" href="https://wa.me/996702080300" target="_blank" rel="noopener">Заказать в WhatsApp</a>
-            <a class="button button-secondary" href="https://t.me/Alisher_00kg" target="_blank" rel="noopener">Написать в Telegram</a>
-            <a class="button button-link" href="https://instagram.com/trebit.kg" target="_blank" rel="noopener">Наш Instagram</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section cta">
-      <div class="container">
-        <div class="cta-box">
-          <p class="section-label">Начните с первого умного шага</p>
-          <h2>Сделайте дом умным по-настоящему, без сложных инструкций и бесполезных функций</h2>
-          <p class="lead" style="max-width: 860px; margin-left:auto; margin-right:auto;">
-            Trebit smart помогает заботиться о близких, растениях и качестве жизни дома. Это тот случай, когда технология выглядит красиво, работает понятно и реально приносит пользу с первого дня.
-          </p>
-          <div class="button-row" style="justify-content:center;">
-            <a class="button button-primary" href="https://wa.me/996702080300" target="_blank" rel="noopener">Заказать в WhatsApp</a>
-            <a class="button button-secondary" href="https://t.me/Alisher_00kg" target="_blank" rel="noopener">Написать в Telegram</a>
-            <a class="button button-link" href="https://instagram.com/trebit" target="_blank" rel="noopener">Наш Instagram</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" style="padding-top: 18px;">
-      <div class="container">
-        <div class="section-head">
-          <p class="section-label">FAQ</p>
-          <h2>Частые вопросы перед заказом</h2>
-        </div>
-        <div class="faq-grid">
-          <div class="faq">
-            <h3>Подойдёт ли это для родителей?</h3>
-            <p>Да. Один из главных сценариев продукта — убрать лишнюю сложность и сделать использование телевизора и кино максимально понятным для пожилых.</p>
-          </div>
-          <div class="faq">
-            <h3>Это только для тех, кто любит гаджеты?</h3>
-            <p>Нет. Любовь к гаджетам не обязательна. Продукт ценен именно тем, что даёт пользу даже тем, кто не хочет вникать в технику.</p>
-          </div>
-          <div class="faq">
-            <h3>Можно ли использовать не все функции сразу?</h3>
-            <p>Да. Кто-то берёт Trebit smart ради родителей, кто-то ради растений, кто-то ради экологии. Он полезен даже в одном сценарии, а со временем раскрывается сильнее.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container footer-row">
-      <div>© Trebit smart — локальный продукт для реальной жизни</div>
     </div>
-  </footer>
+  </section>
+
+  <section class="section" style="padding-top: 18px;">
+    <div class="container">
+      <div class="section-head">
+        <p class="section-label">FAQ</p>
+        <h2>Частые вопросы перед заказом</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq">
+          <h3>Подойдёт ли это для родителей?</h3>
+          <p>Да. Один из главных сценариев продукта — убрать лишнюю сложность и сделать использование телевизора и кино максимально понятным для пожилых.</p>
+        </div>
+        <div class="faq">
+          <h3>Это только для тех, кто любит гаджеты?</h3>
+          <p>Нет. Любовь к гаджетам не обязательна. Продукт ценен именно тем, что даёт пользу даже тем, кто не хочет вникать в технику.</p>
+        </div>
+        <div class="faq">
+          <h3>Можно ли использовать не все функции сразу?</h3>
+          <p>Да. Кто-то берёт Trebit smart ради родителей, кто-то ради растений, кто-то ради экологии. Он полезен даже в одном сценарии, а со временем раскрывается сильнее.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-row">
+    <div>© Trebit smart — локальный продукт для реальной жизни</div>
+  </div>
+</footer>
+
+<script>
+  // Скролл-эффект для навбара
+  window.addEventListener('scroll', function () {
+    const nav = document.querySelector('.nav-wrap');
+    if (window.scrollY > 20) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // ========== ЛОГИКА БУРГЕР-МЕНЮ ==========
+  const burgerBtn = document.getElementById('burgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  const body = document.body;
+
+  function toggleMenu() {
+    burgerBtn.classList.toggle('active');
+    navLinks.classList.toggle('active');
+    body.classList.toggle('menu-open');
+  }
+
+  function closeMenu() {
+    burgerBtn.classList.remove('active');
+    navLinks.classList.remove('active');
+    body.classList.remove('menu-open');
+  }
+
+  // Открыть/закрыть по клику на бургер
+  burgerBtn.addEventListener('click', toggleMenu);
+
+  // Закрыть меню при клике на любую ссылку внутри
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Закрыть меню при клике вне области (по желанию)
+  document.addEventListener('click', function(event) {
+    const isInsideNav = navLinks.contains(event.target) || burgerBtn.contains(event.target);
+    if (!isInsideNav && navLinks.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+</script>
 </body>
 </html>
